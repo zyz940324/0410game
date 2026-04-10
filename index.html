@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>猜數字遊戲</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1><i class="fas fa-dice"></i> 猜數字遊戲</h1>
+      <p class="subtitle">考驗你的運氣與策略！</p>
+    </header>
+
+    <main class="main-grid">
+      <!-- Left / Game Panel -->
+      <section class="card game-panel">
+        <!-- Difficulty Selection -->
+        <div class="difficulty-bar">
+          <span class="difficulty-label">難度：</span>
+          <div class="difficulty-buttons" role="group" aria-label="難度選擇">
+            <button class="btn-diff" data-diff="easy" aria-pressed="false">
+              <i class="fas fa-leaf"></i> 簡單 (1–50)
+            </button>
+            <button class="btn-diff active" data-diff="medium" aria-pressed="true">
+              <i class="fas fa-star-half-alt"></i> 中等 (1–100)
+            </button>
+            <button class="btn-diff" data-diff="hard" aria-pressed="false">
+              <i class="fas fa-fire"></i> 困難 (1–200)
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Area -->
+        <div class="status-area">
+          <div id="message-box" class="message-box info" role="status" aria-live="polite">
+            <i class="fas fa-info-circle"></i>
+            <span id="message-text">請開始遊戲，猜一個 1–100 之間的整數！</span>
+          </div>
+
+          <div class="game-meta">
+            <div class="meta-item">
+              <i class="fas fa-hashtag"></i>
+              <span>猜測次數：<strong id="guess-count">0</strong> 次</span>
+            </div>
+            <div class="meta-item">
+              <i class="fas fa-arrows-alt-h"></i>
+              <span>目前範圍：<strong id="range-display">1 – 100</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+          <label for="guess-input" class="visually-hidden">輸入猜測數字</label>
+          <input
+            id="guess-input"
+            type="number"
+            class="guess-input"
+            placeholder="輸入你的猜測…"
+            disabled
+          />
+          <div class="input-buttons">
+            <button id="submit-btn" class="btn btn-primary" disabled>
+              <i class="fas fa-paper-plane"></i> 提交
+            </button>
+            <button id="reset-btn" class="btn btn-secondary">
+              <i class="fas fa-redo"></i> 重新開始
+            </button>
+          </div>
+        </div>
+
+        <!-- Guess History -->
+        <div class="history-area">
+          <h2 class="section-title"><i class="fas fa-history"></i> 猜測歷史</h2>
+          <div id="history-list" class="history-list" aria-label="猜測歷史">
+            <span class="empty-hint">還沒有猜測記錄</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right / Stats Panel -->
+      <aside class="card stats-panel">
+        <h2 class="section-title"><i class="fas fa-chart-bar"></i> 個人統計</h2>
+        <ul class="stats-list">
+          <li class="stats-item">
+            <span class="stats-icon"><i class="fas fa-gamepad"></i></span>
+            <div>
+              <div class="stats-value" id="stat-total">0</div>
+              <div class="stats-label">總遊戲次數</div>
+            </div>
+          </li>
+          <li class="stats-item">
+            <span class="stats-icon"><i class="fas fa-trophy"></i></span>
+            <div>
+              <div class="stats-value" id="stat-best">–</div>
+              <div class="stats-label">最佳紀錄（猜測次數）</div>
+            </div>
+          </li>
+          <li class="stats-item">
+            <span class="stats-icon"><i class="fas fa-chart-line"></i></span>
+            <div>
+              <div class="stats-value" id="stat-avg">–</div>
+              <div class="stats-label">平均猜測次數</div>
+            </div>
+          </li>
+          <li class="stats-item">
+            <span class="stats-icon"><i class="fas fa-percentage"></i></span>
+            <div>
+              <div class="stats-value" id="stat-winrate">–</div>
+              <div class="stats-label">勝率</div>
+            </div>
+          </li>
+        </ul>
+
+        <hr class="divider" />
+
+        <h2 class="section-title"><i class="fas fa-clock"></i> 最近紀錄</h2>
+        <ul id="recent-games" class="recent-list" aria-label="最近遊戲紀錄">
+          <li class="empty-hint">還沒有完成的遊戲</li>
+        </ul>
+
+        <button id="clear-stats-btn" class="btn btn-danger btn-sm">
+          <i class="fas fa-trash"></i> 清除統計
+        </button>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Win/Lose Modal -->
+  <div id="result-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <div id="modal-icon" class="modal-icon"></div>
+      <h2 id="modal-title" class="modal-title"></h2>
+      <p id="modal-body" class="modal-body"></p>
+      <button id="modal-close-btn" class="btn btn-primary">
+        <i class="fas fa-play"></i> 再玩一次
+      </button>
+    </div>
+  </div>
+
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
