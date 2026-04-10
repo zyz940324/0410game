@@ -33,8 +33,13 @@ function bindEvents() {
   // Submit guess
   els.submitBtn.addEventListener('click', handleGuess);
 
-  // Enter key submits guess
+  // Enter key submits guess; block decimal-related keys to enforce integer-only input
   els.guessInput.addEventListener('keydown', (e) => {
+    // Prevent decimal point, comma (some locales), scientific notation (e/E), and sign chars
+    if (['.', ',', 'e', 'E', '+', '-'].includes(e.key)) {
+      e.preventDefault();
+      return;
+    }
     if (e.key === 'Enter') handleGuess();
   });
 
@@ -83,6 +88,14 @@ function handleGuess() {
   // Client-side validation before calling game logic
   if (rawValue === '' || isNaN(num)) {
     UI.showMessage('請輸入一個整數！', 'warning');
+    UI.shakeInput();
+    UI.els.guessInput.focus();
+    return;
+  }
+
+  // Reject decimal values (covers paste / autofill bypassing the keydown guard)
+  if (rawValue.includes('.') || rawValue.includes(',') || !Number.isInteger(Number(rawValue))) {
+    UI.showMessage('請輸入整數，不能包含小數點！', 'warning');
     UI.shakeInput();
     UI.els.guessInput.focus();
     return;
